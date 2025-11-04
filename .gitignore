@@ -67,6 +67,9 @@ mcp-server/logs/
 # Next.js specific
 nxthreat.io/.next/
 nxthreat.io/out/
+nxthreat.io/.amplify/
+nxthreat.io/amplify_outputs*
+nxthreat.io/amplifyconfiguration*
 
 # Raspberry Pi specific
 raspberry-pi/logs/
