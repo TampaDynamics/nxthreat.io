@@ -1,0 +1,42 @@
+# Core Dependencies
+python-dotenv>=1.0.0
+pyyaml>=6.0
+requests>=2.31.0
+websockets>=12.0
+aiohttp>=3.9.0
+
+# Hardware Control
+RPi.GPIO>=0.7.1  # GPIO control for LEDs, buttons
+picamera2>=0.3.0  # Pi Camera v2/v3
+opencv-python>=4.8.0  # Computer vision
+pyaudio>=0.2.13  # Audio input/output
+pygame>=2.5.0  # Display and audio
+pillow>=10.0.0  # Image processing
+
+# AWS Services
+boto3>=1.34.0  # AWS SDK (for Polly)
+botocore>=1.34.0
+
+# Kali Tools Integration
+scapy>=2.5.0  # Network packet manipulation
+python-nmap>=0.7.1  # Nmap wrapper
+
+# Display/UI
+pygame>=2.5.0  # For display interface
+tkinter  # Usually comes with Python
+
+# Utilities
+colorama>=0.4.6  # Colored terminal output
+python-dateutil>=2.8.2
+psutil>=5.9.0  # System monitoring
+schedule>=1.2.0  # Task scheduling
+
+# Development/Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-asyncio>=0.21.0
+black>=23.0.0  # Code formatting
+pylint>=3.0.0  # Linting
+
+# Logging
+loguru>=0.7.0  # Better logging

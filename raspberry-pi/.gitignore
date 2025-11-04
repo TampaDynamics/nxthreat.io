@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+config/.env
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+
+# Captured media (from camera tests)
+captures/
+test_images/
+test_audio/
+
+# API keys and secrets
+secrets.yaml
+credentials.json
+*.pem
+*.key

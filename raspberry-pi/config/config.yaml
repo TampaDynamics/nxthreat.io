@@ -1,0 +1,158 @@
+# Kali Robot Configuration
+
+robot:
+  name: "Kali"
+  version: "1.0.0"
+  mode: "kid"  # kid, cyber, or locked
+  debug: false
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+
+# MCP Server Connection
+mcp_server:
+  url: "wss://api.nxthreat.io"
+  api_key: "${MCP_API_KEY}"  # Use environment variable
+  reconnect_interval: 5
+  heartbeat_interval: 30
+
+# n8n Integration
+n8n:
+  webhook_base: "https://automation.tampadynamics.com/webhook"
+  endpoints:
+    polly_speak: "/polly-speak"
+    learning_log: "/learning-log"
+    scan_result: "/scan-result"
+    mode_change: "/mode-change"
+    alert_parent: "/alert-parent"
+  api_key: "${N8N_WEBHOOK_KEY}"  # Optional webhook authentication
+
+# AWS Configuration
+aws:
+  region: "us-east-1"
+  access_key_id: "${AWS_ACCESS_KEY_ID}"  # Use environment variable
+  secret_access_key: "${AWS_SECRET_ACCESS_KEY}"  # Use environment variable
+  polly:
+    kid_voice: "Joanna"  # or Joey, Salli
+    cyber_voice: "Matthew"  # or Brian, Ivy
+    engine: "neural"  # neural or standard
+
+# Hardware Configuration
+hardware:
+  display:
+    enabled: true
+    width: 1920
+    height: 1080
+    fullscreen: true
+    framerate: 30
+
+  audio:
+    enabled: true
+    output_device: "default"
+    volume: 80  # 0-100
+    sample_rate: 44100
+
+  camera:
+    enabled: true
+    device: 0  # /dev/video0
+    width: 1280
+    height: 720
+    framerate: 30
+    flip_h: false
+    flip_v: false
+
+  leds:
+    enabled: true
+    gpio_pins:
+      mode_indicator: 18  # BCM pin numbering
+      status_indicator: 23
+    colors:
+      kid_mode: [0, 0, 255]  # Blue RGB
+      cyber_mode: [255, 0, 0]  # Red RGB
+      locked_mode: [255, 255, 255]  # White RGB
+      processing: [255, 255, 0]  # Yellow RGB
+      ready: [0, 255, 0]  # Green RGB
+
+  sensors:
+    enabled: false
+    # Add sensor configuration as needed
+    temperature:
+      enabled: false
+    motion:
+      enabled: false
+
+# Kid Mode Settings
+kid_mode:
+  activities:
+    - "color_hunt"
+    - "counting_game"
+    - "simon_says"
+    - "story_time"
+    - "shape_detective"
+    - "letter_learning"
+  max_session_time: 1800  # 30 minutes
+  break_reminder: 900  # 15 minutes
+  parent_notifications: true
+
+# Cyber Mode Settings
+cyber_mode:
+  authentication_required: true
+  session_timeout: 1800  # 30 minutes
+  log_all_commands: true
+
+  # Whitelisted Kali commands
+  allowed_commands:
+    - "nmap"
+    - "nikto"
+    - "searchsploit"
+    - "netdiscover"
+    - "enum4linux"
+    - "dnsenum"
+
+  # Command restrictions
+  restrictions:
+    no_localhost: true  # Prevent scanning localhost
+    no_private_ranges: false  # Allow with flag
+    require_target_validation: true
+    max_scan_duration: 3600  # 1 hour
+
+  # Target validation
+  target_validation:
+    enabled: true
+    whitelist: []  # Add your authorized targets
+    blacklist:
+      - "localhost"
+      - "127.0.0.1"
+      - "::1"
+
+# Logging
+logging:
+  log_dir: "/var/log/kali-robot"
+  max_file_size: 10485760  # 10MB
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+  loggers:
+    robot: "INFO"
+    hardware: "INFO"
+    modes: "INFO"
+    kali: "INFO"
+    api: "INFO"
+
+# Security
+security:
+  api_key_rotation_days: 90
+  require_mode_switch_auth: true
+  max_failed_auth_attempts: 3
+  lockout_duration: 300  # 5 minutes
+
+# Performance
+performance:
+  command_queue_size: 100
+  max_concurrent_tasks: 5
+  event_loop_interval: 0.1
+
+# Network
+network:
+  interface_primary: "wlan0"
+  interface_monitor: "wlan1"  # ALFA card for cyber mode
+  timeout: 10
+  retry_attempts: 3

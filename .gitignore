@@ -1,0 +1,80 @@
+# NXThreat Monorepo - Git Ignore
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json
+secrets/
+config/.env
+
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+ENV/
+
+# Build outputs
+build/
+dist/
+.next/
+out/
+*.so
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+/var/log/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+.cache/
+
+# Captured media (from camera tests)
+captures/
+test_images/
+test_audio/
+
+# MCP Server specific
+mcp-server/build/
+mcp-server/logs/
+
+# Next.js specific
+nxthreat.io/.next/
+nxthreat.io/out/
+
+# Raspberry Pi specific
+raspberry-pi/logs/
+
+# Amplify
+amplify/
+.amplify/
+
+# Local development
+.local/
+local/
