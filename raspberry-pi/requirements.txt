@@ -23,7 +23,7 @@ python-nmap>=0.7.1  # Nmap wrapper
 
 # Display/UI
 pygame>=2.5.0  # For display interface
-tkinter  # Usually comes with Python
+# tkinter - install via: sudo apt install python3-tk
 
 # Utilities
 colorama>=0.4.6  # Colored terminal output
