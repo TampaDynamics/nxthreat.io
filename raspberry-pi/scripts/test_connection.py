@@ -41,21 +41,18 @@ def test_aws_polly():
     print(f"Testing AWS Polly...", end=" ")
     try:
         import boto3
-        from botocore.exceptions import ClientError, NoCredentialsError
 
         client = boto3.client('polly', region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1'))
         # Try to list voices as a lightweight test
         response = client.describe_voices(LanguageCode='en-US')
         print(f"{Fore.GREEN}✓ Connected ({len(response['Voices'])} voices available){Style.RESET_ALL}")
         return True
-    except NoCredentialsError:
-        print(f"{Fore.RED}✗ Failed - No AWS credentials found{Style.RESET_ALL}")
-        return False
-    except ClientError as e:
-        print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
-        return False
     except Exception as e:
-        print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
+        error_name = type(e).__name__
+        if 'NoCredentials' in error_name:
+            print(f"{Fore.RED}✗ Failed - No AWS credentials found{Style.RESET_ALL}")
+        else:
+            print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
         return False
 
 def main():
