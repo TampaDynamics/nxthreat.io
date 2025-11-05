@@ -6,7 +6,14 @@ Run this after initial setup to verify connectivity
 
 import requests
 import sys
+import os
+from pathlib import Path
 from colorama import init, Fore, Style
+
+# Load environment variables
+from dotenv import load_dotenv
+config_dir = Path(__file__).parent.parent / "config"
+load_dotenv(config_dir / ".env")
 
 init(autoreset=True)
 
@@ -29,22 +36,45 @@ def test_connection(name, url, method="GET", timeout=5):
         print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
         return False
 
+def test_aws_polly():
+    """Test AWS Polly with actual credentials"""
+    print(f"Testing AWS Polly...", end=" ")
+    try:
+        import boto3
+        from botocore.exceptions import ClientError, NoCredentialsError
+
+        client = boto3.client('polly', region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1'))
+        # Try to list voices as a lightweight test
+        response = client.describe_voices(LanguageCode='en-US')
+        print(f"{Fore.GREEN}✓ Connected ({len(response['Voices'])} voices available){Style.RESET_ALL}")
+        return True
+    except NoCredentialsError:
+        print(f"{Fore.RED}✗ Failed - No AWS credentials found{Style.RESET_ALL}")
+        return False
+    except ClientError as e:
+        print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
+        return False
+    except Exception as e:
+        print(f"{Fore.RED}✗ Failed - {str(e)}{Style.RESET_ALL}")
+        return False
+
 def main():
     print(f"\n{Fore.CYAN}{'='*60}{Style.RESET_ALL}")
     print(f"{Fore.CYAN}Kali Robot - Connection Test{Style.RESET_ALL}")
     print(f"{Fore.CYAN}{'='*60}{Style.RESET_ALL}\n")
 
     services = [
-        ("MCP Server", "https://api.nxthreat.io", "HEAD"),
         ("n8n Instance", "https://automation.tampadynamics.com", "HEAD"),
         ("Main Website", "https://nxthreat.io", "HEAD"),
-        ("AWS Polly (via boto3)", "https://polly.us-east-1.amazonaws.com", "HEAD"),
     ]
 
     results = []
     for name, url, method in services:
         result = test_connection(name, url, method)
         results.append(result)
+
+    # Test AWS Polly separately with real credentials
+    results.append(test_aws_polly())
 
     print(f"\n{Fore.CYAN}{'='*60}{Style.RESET_ALL}")
 
