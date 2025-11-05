@@ -82,9 +82,11 @@ class VoiceService:
             )
 
             if result.returncode == 0:
-                # Play audio
+                # Play audio with better buffering and HDMI output
+                # -a hw:0,0 forces HDMI audio
+                # --buffer 8192 increases buffer size for smoother playback
                 subprocess.run(
-                    ['mpg123', '-q', str(audio_file)],
+                    ['mpg123', '-q', '-a', 'hw:0,0', '--buffer', '8192', str(audio_file)],
                     check=True
                 )
             else:
