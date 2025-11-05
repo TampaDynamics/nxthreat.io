@@ -54,9 +54,15 @@ class N8NClient:
             logger.error(f"Failed to trigger workflow: {e}")
             return None
 
-    async def log_event(self, event_type: str, data: dict):
+    async def log_event(self, event_type: str, mode: str, data: dict):
         """Log an event to n8n for tracking"""
-        await self.trigger_workflow("kali-logger", {
+        payload = {
             "event_type": event_type,
-            "data": data
-        })
+            "mode": mode,
+            "data": data,
+            "robot": "Kali"
+        }
+
+        result = await self.trigger_workflow("kali-logger", payload)
+        logger.debug(f"Event logged: {event_type}")
+        return result

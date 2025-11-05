@@ -81,6 +81,14 @@ class KaliRobot:
         logger.info(f"Speaking: '{text}'")
         await self.voice_service.speak(text)
 
+        # Log to n8n
+        if self.n8n_client:
+            await self.n8n_client.log_event(
+                "speech",
+                self.current_mode.value,
+                {"text": text, "voice": self.voice_service.current_voice}
+            )
+
     async def run(self):
         """Main event loop"""
         logger.info("Kali robot is running...")
