@@ -79,7 +79,16 @@ class KaliRobot:
     async def speak(self, text: str):
         """Make robot speak using current voice"""
         logger.info(f"Speaking: '{text}'")
+
+        # Animate mouth while speaking
+        if self.display_service:
+            self.display_service.set_speaking(True)
+
         await self.voice_service.speak(text)
+
+        # Stop mouth animation
+        if self.display_service:
+            self.display_service.set_speaking(False)
 
         # Log to n8n
         if self.n8n_client:
@@ -98,9 +107,12 @@ class KaliRobot:
                 # Main loop - process events, handle inputs, etc.
                 await asyncio.sleep(0.1)
 
-                # Update display
+                # Update display with current state
                 if self.display_service:
-                    await self.display_service.update()
+                    await self.display_service.update(
+                        mode=self.current_mode.value,
+                        status="Running"
+                    )
 
             except KeyboardInterrupt:
                 logger.info("Keyboard interrupt received")
